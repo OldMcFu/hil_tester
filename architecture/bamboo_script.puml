@@ -1,0 +1,23 @@
+@startuml Run_Make_File_For_Container_Tests
+    Agent -> Agent : Checkout_Repository
+    Agent -> Agent : Run_Build_In_Container
+    Agent -> Agent : Download_External_Sources
+    Agent -> Agent : Create_Tar_From_Repository
+    Agent -> Agent : Execute_Tests
+    Agent --> Target_Tester : Put_Tar_From_Repository
+    Agent ->o Target_Tester : Extract_Tar_File
+    Agent ->o Target_Tester : Execute_Tests
+    Agent -> Target_Tester : Get_Test_Output_From_Target_Tester
+    Target_Tester -> Agent : Test_Output_From_Target_Tester
+    Agent -> Agent : Merge Junit File
+    Agent -> Agent : Generate CSV Test Report
+    Agent -> Agent : Store_Artifacts
+
+legend
+   |= arrow   |= description|
+   | ""->o "" |  ssh command |
+   | ""--> "" |  scp command |
+   | ""->  "" |  shell command |
+endlegend
+
+@enduml

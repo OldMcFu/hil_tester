@@ -1,0 +1,17 @@
+@startuml execute_tests
+
+    alt ENV container == podman
+        Agent -> Container: pytest tests
+    else running on target_tester
+        Agent ->o Target_Tester : Prepare Tester for Mode
+        Agent ->o Target_Tester : pytest tests
+    end
+
+legend
+   |= arrow   |= description|
+   | ""->o "" |  ssh command |
+   | ""--> "" |  scp command |
+   | ""->  "" |  shell command |
+endlegend
+
+@enduml
