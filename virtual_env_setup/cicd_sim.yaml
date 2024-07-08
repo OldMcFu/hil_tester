@@ -1,0 +1,50 @@
+version: "3"
+services:
+  bamboo:
+    container_name: bamboo
+    image: debian:ip
+    build:
+      dockerfile: Dockerfile
+    volumes:
+      - ../:/workspace
+    stdin_open: true
+    tty: true
+    expose:
+      - "22" 
+    networks:
+      mars:
+        ipv4_address: 20.0.0.2
+  tester:
+    container_name: tester
+    image: debian:ip
+    build:
+      dockerfile: Dockerfile
+    volumes:
+      - ../:/workspace
+    #command: "python3 /workspace/server.py"
+    stdin_open: true
+    tty: true
+    expose:
+      - "22" 
+    networks:
+      mars:
+        ipv4_address: 20.0.0.4
+  target:
+    container_name: target
+    image: debian:ip
+    build:
+      dockerfile: Dockerfile
+    volumes:
+      - ../:/workspace
+    #command: "service ssh restart && python3 /workspace/client.py"
+    stdin_open: true
+    tty: true
+    expose:
+      - "22" 
+    networks:
+      mars:
+        ipv4_address: 20.0.0.5
+networks:
+  mars:
+    name: mars
+    driver: bridge
